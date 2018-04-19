@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MTGPriceChecker</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_rix">RIX</string>
+</resources>
