@@ -52,4 +52,6 @@ public class CardListings extends RecyclerView.Adapter<CardListings.ViewHolder> 
     public int getItemCount() {
         return cardlist.size();
     }
+
+    public void updateData(ArrayList<Card> array) { cardlist = array; }
 }

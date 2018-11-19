@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+/*
 
         EchoMTGJavaAPIWrapper.getInstance(getApplicationContext()).authRequest(new EchoMTGJavaAPIWrapper.EchoCallback() {
             @Override
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, login.getUser(), login.getPw());
 
+*/
 
 
 /*        ImageButton rix = (ImageButton) findViewById(R.id.button_rix);

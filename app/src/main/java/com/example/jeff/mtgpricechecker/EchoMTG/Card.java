@@ -9,6 +9,7 @@ public class Card {
     private String cardname;
     private String rarity;
     private String set;
+    private String price;
 
     public Card(String cardname, String rarity, String set) {
         this.cardname = cardname;
@@ -43,4 +44,8 @@ public class Card {
     public void setSet(String set) {
         this.set = set;
     }
+
+    public String getPrice() { return price; }
+
+    public void setPrice(String price) { this.price = price; }
 }

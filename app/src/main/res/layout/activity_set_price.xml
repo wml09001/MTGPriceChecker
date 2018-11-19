@@ -4,24 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jeff.mtgpricechecker.SetPriceActivity">
+    tools:context="com.example.jeff.mtgpricechecker.MainActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/price_view"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-<!--    <TextView
-        android:id="@+id/cardname"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="hi"
-        android:textAlignment="center"
-        android:textSize="16dp"
-        android:textStyle="bold" />
--->
+
+
+
+    <!--    <TextView
+            android:id="@+id/cardname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="hi"
+            android:textAlignment="center"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    -->
 <!--
     <TextView
         android:id="@+id/cardprice"
