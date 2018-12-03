@@ -50,6 +50,7 @@ public class SetPriceActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+        setTitle("GRN");
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.price_view);
@@ -229,6 +230,9 @@ public class SetPriceActivity extends AppCompatActivity {
                                     if (!card.has("usd")) {
                                         //Log.i("USD Price", card.getString("usd"));
                                         _card.setPrice("0");
+                                    }
+                                    else {
+                                        _card.setPrice(card.getString("usd"));
                                     }
                                     cardlist.add(_card);
                                 }

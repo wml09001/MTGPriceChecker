@@ -19,10 +19,12 @@ public class CardListings extends RecyclerView.Adapter<CardListings.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mTextView;
+        public TextView mcardName;
+        public TextView mcardPrice;
         public ViewHolder (View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.cardname);
+            mcardName = (TextView) v.findViewById(R.id.cardname);
+            mcardPrice = (TextView) v.findViewById(R.id.cardprice);
         }
     }
 
@@ -46,7 +48,8 @@ public class CardListings extends RecyclerView.Adapter<CardListings.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
 //        holder.mTextView.setText(mDataset[position]);
         Card _card = cardlist.get(position);
-        holder.mTextView.setText(_card.getCardname());
+        holder.mcardName.setText(_card.getCardname());
+        holder.mcardPrice.setText(_card.getPrice());
     }
 
     public int getItemCount() {

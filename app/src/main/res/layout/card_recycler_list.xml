@@ -20,10 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
         android:text="hello"
-        app:layout_constraintLeft_toRightOf="@+id/cardname"
+        app:layout_constraintRight_toLeftOf="parent"
+
 
         />
-
+    <!--app:layout_constraintLeft_toRightOf="@+id/cardname"-->
 </android.support.constraint.ConstraintLayout>
