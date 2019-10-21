@@ -63,7 +63,6 @@ import android.net.Uri;
 public class MainActivity extends AppCompatActivity {
 
 
-    UserAuth login = new UserAuth();
     SharedPreferences sharedPref;
 
     String[] setcodes = {"RNA", "GRN", "DOM", "RIX", "XLN"};
