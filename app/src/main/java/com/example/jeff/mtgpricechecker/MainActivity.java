@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
+//
 /*
 
     private class HttpImageRequestTask extends AsyncTask<Void, Void, Drawable> {
