@@ -29,9 +29,11 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     /*    compile 'com.mcxiaoke.volley:library-aar:1.0.0'*/
     compile 'com.android.volley:volley:1.1.0'
-    compile 'com.github.2coffees1team:GlideToVectorYou:v1.0'
+    //compile 'com.github.2coffees1team:GlideToVectorYou:v1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/svg-android-1.1.jar')
+    compile 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 }

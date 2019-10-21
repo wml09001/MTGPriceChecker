@@ -19,7 +19,6 @@
         android:id="@+id/cardprice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginRight="@dimen/fab_margin"
         android:text="hello"
         app:layout_constraintRight_toLeftOf="parent"

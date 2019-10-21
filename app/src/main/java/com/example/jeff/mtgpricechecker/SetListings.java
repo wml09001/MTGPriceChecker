@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.jeff.mtgpricechecker.EchoMTG.Set;
 
 import org.w3c.dom.Text;
@@ -37,6 +39,7 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Set _set = setlist.get(position);
         holder.msetName.setText(_set.getSetname());
+
     }
     public int getItemCount() { return setlist.size(); }
 

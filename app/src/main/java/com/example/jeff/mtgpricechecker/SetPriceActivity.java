@@ -225,9 +225,9 @@ public class SetPriceActivity extends AppCompatActivity {
                                     //Log.i("Card Name", card.getString("name"));
                                     Card _card = new Card();
                                     _card.setCardname(card.getString("name"));
+                                    JSONArray pricelist = response.getJSONArray("prices");
 
-
-                                    if (!card.has("usd")) {
+                                    if (!pricelist.getJSONObject("usd").getString("")) {
                                         //Log.i("USD Price", card.getString("usd"));
                                         _card.setPrice("0");
                                     }

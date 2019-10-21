@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,10 +32,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+
 import com.example.jeff.mtgpricechecker.EchoMTG.*;
 import com.example.jeff.mtgpricechecker.Scryfall.*;
 //import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
+//import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
+//import com.github.twocoffeesoneteam.glidetovectoryou.SvgDecoder;
+//import com.github.twocoffeesoneteam.glidetovectoryou.SvgDrawableTranscoder;
+//import com.github.twocoffeesoneteam.glidetovectoryou.SvgSoftwareLayerSetter;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
@@ -42,12 +47,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
 
 import javax.net.ssl.HttpsURLConnection;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.util.Preconditions;
+import com.bumptech.glide.load.model.StreamEncoder;
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import android.net.Uri;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,10 +66,15 @@ public class MainActivity extends AppCompatActivity {
     UserAuth login = new UserAuth();
     SharedPreferences sharedPref;
 
-    String[] setcodes = {"GRN", "DOM", "RIX", "XLN"};
-    ArrayList<Set> svgcodes = new ArrayList<Set>();
+    String[] setcodes = {"RNA", "GRN", "DOM", "RIX", "XLN"};
+    private static final String TAG = "SVGActivity";
+    ArrayList<Set> svgcodes;
 
     private ImageView mImageView;
+    private ImageView imageViewRes;
+    private ImageView imageViewNet;
+    private RequestBuilder<PictureDrawable> requestBuilder;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -67,58 +83,14 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
-/*
-
-    private class HttpImageRequestTask extends AsyncTask<Void, Void, Drawable> {
-        String svgurl = null;
-
-        public void setSvgurl(String url) {
-            svgurl = url;
-        }
-
-        @Override
-        protected Drawable doInBackground(Void... params) {
-            try {
-                URL url = new URL(svgurl);
-                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-                InputStream inputStream = urlConnection.getInputStream();
-                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
-                Drawable drawable = svg.createPictureDrawable();
-                return drawable;
-
-            } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable drawable) {
-            updateImageView(drawable);
-        }
-        @SuppressLint("NewApi")
-        private void updateImageView(Drawable drawable) {
-            if(drawable != null) {
-                mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                mImageView.setImageDrawable(drawable);
-            }
-        }
-    }
-*/
-
-    public void HttpImageRequest(String uri) {
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-    }
 
 
-
-    public void populateSetCodes(String[] setcodes) {
+    public void populateSet(String[] setcodes) {
         List<String> setlist = Arrays.asList(setcodes);
         String scryfallset = "https://api.scryfall.com/sets/";
 
         for (final String code : setlist) {
-            Log.i("Set Code", code);
+            //Log.i("Set Code", code);
             String query = scryfallset + code;
 
 
@@ -130,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             String SvgUri = null;
                             try {
                                 SvgUri = response.getString("icon_svg_uri");
-                                Log.i("Icon url" , SvgUri);
+                                //Log.i("Icon url" , SvgUri);
                                 Set _set = new Set();
                                 _set.setSetname(response.getString("code"));
                                 _set.setSvguri(SvgUri);
@@ -183,11 +155,29 @@ public class MainActivity extends AppCompatActivity {
         });
 */
         setContentView(R.layout.activity_main);
+/*
+
+        imageViewRes = (ImageView) findViewById(R.id.svg_image_view1);
+        imageViewNet = (ImageView) findViewById(R.id.svg_image_view2);
+
+        requestBuilder = GlideApp.with(this)
+                .as(PictureDrawable.class)
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.image_error)
+                .transition(withCrossFade())
+                .listener(new SvgSoftwareLayerSetter());
+
+*/
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.set_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        svgcodes = new ArrayList<Set>();
+
 
         mAdapter = new SetListings(svgcodes);
         mRecyclerView.setAdapter(mAdapter);
@@ -195,29 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        populateSetCodes(setcodes);
-/*
+        populateSet(setcodes);
 
-        EchoMTGJavaAPIWrapper.getInstance(getApplicationContext()).authRequest(new EchoMTGJavaAPIWrapper.EchoCallback() {
-            @Override
-            public void onSuccess(JSONObject result) {
-                JSONObject auth = result;
-                String token = null;
-                try {
-                    token = auth.getString("token");
-                    Log.i("Tag", "token");
-                } catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String error) {
-                Log.e("failure: ", "UHOH");
-            }
-        }, login.getUser(), login.getPw());
-
-*/
 
 
 /*        ImageButton rix = (ImageButton) findViewById(R.id.button_rix);
@@ -258,3 +227,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+/*
+
+    private class HttpImageRequestTask extends AsyncTask<Void, Void, Drawable> {
+        String svgurl = null;
+
+        public void setSvgurl(String url) {
+            svgurl = url;
+        }
+
+        @Override
+        protected Drawable doInBackground(Void... params) {
+            try {
+                URL url = new URL(svgurl);
+                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+                InputStream inputStream = urlConnection.getInputStream();
+                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
+                Drawable drawable = svg.createPictureDrawable();
+                return drawable;
+
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            updateImageView(drawable);
+        }
+        @SuppressLint("NewApi")
+        private void updateImageView(Drawable drawable) {
+            if(drawable != null) {
+                mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                mImageView.setImageDrawable(drawable);
+            }
+        }
+    }
+*/
