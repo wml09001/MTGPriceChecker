@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.view.View;
-import com.example.jeff.mtgpricechecker.EchoMTG.Card;
+import com.example.jeff.mtgpricechecker.Containers.Card;
 
 import java.util.ArrayList;
 

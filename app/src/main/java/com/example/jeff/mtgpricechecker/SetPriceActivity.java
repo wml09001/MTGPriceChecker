@@ -1,7 +1,6 @@
 package com.example.jeff.mtgpricechecker;
 
-import android.app.Activity;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,16 +19,13 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.jeff.mtgpricechecker.EchoMTG.Card;
-import com.example.jeff.mtgpricechecker.Scryfall.ScryfallAPI;
+import com.example.jeff.mtgpricechecker.Containers.Card;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -40,6 +36,7 @@ public class SetPriceActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Card> cardlist;
     private ArrayList<Card> setlist;
+    private String msetcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +47,10 @@ public class SetPriceActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        setTitle("GRN");
 
+        Intent intent = getIntent();
+        msetcode = intent.getStringExtra("SETCODE");
+        setTitle(msetcode);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.price_view);
         mRecyclerView.setHasFixedSize(true);
@@ -64,13 +63,6 @@ public class SetPriceActivity extends AppCompatActivity {
 
 
 
-        //populateList();
-
-
-/*        for (int i = 0; 10 > i; i++) {
-            Card _card = new Card("test " + i, null, null);
-            cardlist.add(_card);
-        }*/
         mAdapter = new CardListings(cardlist);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -79,7 +71,7 @@ public class SetPriceActivity extends AppCompatActivity {
                 try {
                     //initializeScryfall(setlist);
                     //updateList();
-                    testQuery("https://api.scryfall.com/cards/search?q=set%3Agrn");
+                    testQuery("https://api.scryfall.com/cards/search?q=set%3A" + msetcode);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
@@ -191,11 +183,6 @@ public class SetPriceActivity extends AppCompatActivity {
         mRequestQueue = new RequestQueue(cache, network);
         mRequestQueue.start();
 
-
-        //RequestQueue queue = Volley.newRequestQueue(this);
-
-        //String test = "https://api.scryfall.com/cards/search?q=set%3Agrn";
-
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, test, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -225,14 +212,16 @@ public class SetPriceActivity extends AppCompatActivity {
                                     //Log.i("Card Name", card.getString("name"));
                                     Card _card = new Card();
                                     _card.setCardname(card.getString("name"));
-                                    JSONArray pricelist = response.getJSONArray("prices");
+                                    JSONObject pricelist = card.getJSONObject("prices");
 
-                                    if (!pricelist.getJSONObject("usd").getString("")) {
+
+                                    if (!pricelist.has("usd") ) {
                                         //Log.i("USD Price", card.getString("usd"));
                                         _card.setPrice("0");
                                     }
                                     else {
-                                        _card.setPrice(card.getString("usd"));
+                                        _card.setPrice(pricelist.getString("usd"));
+                                        //Log.i("card price",pricelist.getString("usd") );
                                     }
                                     cardlist.add(_card);
                                 }
@@ -247,7 +236,7 @@ public class SetPriceActivity extends AppCompatActivity {
                                 Log.i("Query fail", "0 total cards in query");
                             }
                         }
-                        catch(JSONException e){
+                        catch (JSONException e){
 
                         }
                     }

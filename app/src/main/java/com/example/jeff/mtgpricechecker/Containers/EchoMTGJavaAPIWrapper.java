@@ -1,4 +1,4 @@
-package com.example.jeff.mtgpricechecker.EchoMTG;
+package com.example.jeff.mtgpricechecker.Containers;
 
 import android.content.Context;
 import com.android.volley.Request;

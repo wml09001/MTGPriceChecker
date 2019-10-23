@@ -1,27 +1,14 @@
 package com.example.jeff.mtgpricechecker;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PictureDrawable;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.LruCache;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
@@ -30,27 +17,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 
-import com.example.jeff.mtgpricechecker.EchoMTG.*;
-import com.example.jeff.mtgpricechecker.Scryfall.*;
+import com.example.jeff.mtgpricechecker.Containers.*;
 //import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 //import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 //import com.github.twocoffeesoneteam.glidetovectoryou.SvgDecoder;
 //import com.github.twocoffeesoneteam.glidetovectoryou.SvgDrawableTranscoder;
 //import com.github.twocoffeesoneteam.glidetovectoryou.SvgSoftwareLayerSetter;
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.io.File;
+/*
 
 import javax.net.ssl.HttpsURLConnection;
 import com.bumptech.glide.Glide;
@@ -59,8 +41,9 @@ import com.bumptech.glide.util.Preconditions;
 import com.bumptech.glide.load.model.StreamEncoder;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import android.net.Uri;
+*/
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SetListings.onSetListener {
 
 
     SharedPreferences sharedPref;
@@ -72,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private ImageView imageViewRes;
     private ImageView imageViewNet;
-    private RequestBuilder<PictureDrawable> requestBuilder;
+    //private RequestBuilder<PictureDrawable> requestBuilder;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -178,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         svgcodes = new ArrayList<Set>();
 
 
-        mAdapter = new SetListings(svgcodes);
+        mAdapter = new SetListings(svgcodes, this);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -225,7 +208,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onSetClick(int position) {
+        Intent intent = new Intent(this, SetPriceActivity.class);
+
+        String setcode = svgcodes.get(position).getSetname();
+        intent.putExtra("SETCODE", setcode);
+        startActivity(intent);
+    }
 }
+
 //
 /*
 

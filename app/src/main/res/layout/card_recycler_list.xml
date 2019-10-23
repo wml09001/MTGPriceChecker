@@ -10,20 +10,18 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textAlignment="center"
+
         android:textStyle="bold"
-
-
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/cardprice"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:text="hello"
-        app:layout_constraintRight_toLeftOf="parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="28dp"
 
-
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="0dp"></TextView>
     <!--app:layout_constraintLeft_toRightOf="@+id/cardname"-->
 </android.support.constraint.ConstraintLayout>

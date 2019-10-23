@@ -1,4 +1,4 @@
-package com.example.jeff.mtgpricechecker.EchoMTG;
+package com.example.jeff.mtgpricechecker.Containers;
 
 /**
  * Created by Jeff on 12/3/2018.
