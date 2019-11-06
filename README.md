@@ -6,5 +6,3 @@ When opening packs of MTG cards this app allows the user to quickly check the cu
 Currently only Standard sets are included.
 
 ![](app/demo/demo.gif)
-
-![](http://i.imgur.com/60bts.gif)
