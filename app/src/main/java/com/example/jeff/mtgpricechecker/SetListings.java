@@ -1,9 +1,11 @@
 package com.example.jeff.mtgpricechecker;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /*import com.bumptech.glide.Glide;*/
@@ -22,11 +24,15 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView msetName;
+        public ImageView msetIcon;
+        Context context;
+
         onSetListener _onSetListener;
 
         public ViewHolder (View v, onSetListener onSetListener) {
             super(v);
             msetName = (TextView) v.findViewById(R.id.setname);
+            msetIcon = (ImageView) v.findViewById(R.id.seticon);
             this._onSetListener = onSetListener;
 
             v.setOnClickListener(this);
@@ -51,6 +57,9 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Set _set = setlist.get(position);
         holder.msetName.setText(_set.getSetname());
+        //String imageresource = "R.drawable." + _set.getSetname();
+        holder.msetIcon.setImageResource(_set.getImage());
+        /*holder.msetIcon.setImageResource(R.drawable.eld);*/
 
     }
     public int getItemCount() { return setlist.size(); }

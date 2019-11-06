@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.jeff.mtgpricechecker.MainActivity">
 
+    <com.victor.loading.rotate.RotateLoading
+        android:id="@+id/rotateloading"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -30,7 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+
+
+        />
 
 
 

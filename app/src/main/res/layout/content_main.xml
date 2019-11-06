@@ -7,52 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.jeff.mtgpricechecker.MainActivity"
     tools:showIn="@layout/activity_main">
-<!--
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
--->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="184dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:textAlignment="center"
-        android:text="Rivals of Ixalan"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/button_rix"
-        android:layout_width="100dp"
-        android:layout_height="75dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="16dp"
-        android:onClick="priceCheckRIX"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toRightOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rix_c" />
-<!--
-
-    <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/setimage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
--->
-    <ImageView
-        android:id="@+id/setimage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <!---->
 
     </android.support.constraint.ConstraintLayout>

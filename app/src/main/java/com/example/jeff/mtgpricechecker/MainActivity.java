@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,13 +50,12 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
 
     SharedPreferences sharedPref;
 
-    String[] setcodes = {"RNA", "GRN", "DOM", "RIX", "XLN"};
+    String[] setcodes = {"RNA", "GRN", "M20", "ELD", "WAR"};
     private static final String TAG = "SVGActivity";
     ArrayList<Set> svgcodes;
 
     private ImageView mImageView;
-    private ImageView imageViewRes;
-    private ImageView imageViewNet;
+
     //private RequestBuilder<PictureDrawable> requestBuilder;
 
     private RecyclerView mRecyclerView;
@@ -63,13 +64,13 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
     private ArrayList<String> setlist;
 
     private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
 
 
 
     public void populateSet(String[] setcodes) {
         List<String> setlist = Arrays.asList(setcodes);
         String scryfallset = "https://api.scryfall.com/sets/";
+
 
         for (final String code : setlist) {
             //Log.i("Set Code", code);
@@ -81,22 +82,22 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
             JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, query, null,
                     new Response.Listener<JSONObject>() {
                         public void onResponse(JSONObject response) {
-                            String SvgUri = null;
+                            String setcode;
                             try {
-                                SvgUri = response.getString("icon_svg_uri");
+                                //SvgUri = response.getString("icon_svg_uri");
                                 //Log.i("Icon url" , SvgUri);
                                 Set _set = new Set();
-                                _set.setSetname(response.getString("code"));
-                                _set.setSvguri(SvgUri);
+                                setcode = response.getString("code");
+                                _set.setSetname(setcode.toUpperCase());
+                                int imgID = getResources().getIdentifier(setcode, "drawable", getPackageName());
+                                _set.setImage(imgID);
+
+
 
                                 svgcodes.add(_set);
 
                                 mAdapter.notifyDataSetChanged();
-/*
-                                HttpImageRequestTask imageRequestTask = new HttpImageRequestTask();
-                                imageRequestTask.setSvgurl(SvgUri);
-                                imageRequestTask.doInBackground();
-                                */
+
                             }
                             catch (JSONException e) {
 
@@ -137,19 +138,13 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
         });
 */
         setContentView(R.layout.activity_main);
-/*
 
-        imageViewRes = (ImageView) findViewById(R.id.svg_image_view1);
-        imageViewNet = (ImageView) findViewById(R.id.svg_image_view2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        requestBuilder = GlideApp.with(this)
-                .as(PictureDrawable.class)
-                .placeholder(R.drawable.image_loading)
-                .error(R.drawable.image_error)
-                .transition(withCrossFade())
-                .listener(new SvgSoftwareLayerSetter());
+        getSupportActionBar().setTitle("MTG Price Checker");
 
-*/
+
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.set_view);
@@ -164,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
         mAdapter = new SetListings(svgcodes, this);
         mRecyclerView.setAdapter(mAdapter);
 
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
 
 
@@ -203,10 +199,10 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
 
         return super.onOptionsItemSelected(item);
     }
-    public void priceCheckRIX(View view) {
+/*    public void priceCheckRIX(View view) {
         Intent intent = new Intent(this, SetPriceActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public void onSetClick(int position) {
@@ -218,42 +214,4 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
     }
 }
 
-//
-/*
 
-    private class HttpImageRequestTask extends AsyncTask<Void, Void, Drawable> {
-        String svgurl = null;
-
-        public void setSvgurl(String url) {
-            svgurl = url;
-        }
-
-        @Override
-        protected Drawable doInBackground(Void... params) {
-            try {
-                URL url = new URL(svgurl);
-                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-                InputStream inputStream = urlConnection.getInputStream();
-                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
-                Drawable drawable = svg.createPictureDrawable();
-                return drawable;
-
-            } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Drawable drawable) {
-            updateImageView(drawable);
-        }
-        @SuppressLint("NewApi")
-        private void updateImageView(Drawable drawable) {
-            if(drawable != null) {
-                mImageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                mImageView.setImageDrawable(drawable);
-            }
-        }
-    }
-*/

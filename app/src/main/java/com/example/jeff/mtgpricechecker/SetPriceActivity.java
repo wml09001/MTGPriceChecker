@@ -3,6 +3,7 @@ package com.example.jeff.mtgpricechecker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.jeff.mtgpricechecker.Containers.Card;
+import com.victor.loading.rotate.RotateLoading;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +48,11 @@ public class SetPriceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_price);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        RotateLoading rotateLoading = findViewById(R.id.rotateloading);
+
         setSupportActionBar(toolbar);
+
+
 
         Intent intent = getIntent();
         msetcode = intent.getStringExtra("SETCODE");
@@ -61,12 +67,12 @@ public class SetPriceActivity extends AppCompatActivity {
         cardlist = new ArrayList<Card>();
         setlist = new ArrayList<Card>();
 
-
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         mAdapter = new CardListings(cardlist);
         mRecyclerView.setAdapter(mAdapter);
 
-        new Thread(new Runnable() {
+/*        new Thread(new Runnable() {
             public void run() {
                 try {
                     //initializeScryfall(setlist);
@@ -76,7 +82,14 @@ public class SetPriceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                 }
             }
-        }).start();
+        }).start();*/
+        if(rotateLoading.isStart()){
+            rotateLoading.stop();
+        }else{
+            rotateLoading.start();
+        }
+        testQuery("https://api.scryfall.com/cards/search?q=set%3A" + msetcode);
+        rotateLoading.stop();
     }
 
     private void populateList() {
