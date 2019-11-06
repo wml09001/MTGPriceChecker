@@ -24,6 +24,7 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView msetName;
+        public TextView msetCode;
         public ImageView msetIcon;
         Context context;
 
@@ -32,6 +33,7 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
         public ViewHolder (View v, onSetListener onSetListener) {
             super(v);
             msetName = (TextView) v.findViewById(R.id.setname);
+            msetCode = (TextView) v.findViewById(R.id.setcode);
             msetIcon = (ImageView) v.findViewById(R.id.seticon);
             this._onSetListener = onSetListener;
 
@@ -56,10 +58,9 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
     }
     public void onBindViewHolder(ViewHolder holder, int position) {
         Set _set = setlist.get(position);
-        holder.msetName.setText(_set.getSetname());
-        //String imageresource = "R.drawable." + _set.getSetname();
+        holder.msetCode.setText(_set.getSetCode());
+        holder.msetName.setText(_set.getSetName());
         holder.msetIcon.setImageResource(_set.getImage());
-        /*holder.msetIcon.setImageResource(R.drawable.eld);*/
 
     }
     public int getItemCount() { return setlist.size(); }

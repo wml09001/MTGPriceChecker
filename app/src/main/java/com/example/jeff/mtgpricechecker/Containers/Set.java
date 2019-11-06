@@ -7,18 +7,23 @@ package com.example.jeff.mtgpricechecker.Containers;
 // Container for main menu set info
 
 public class Set {
-    private String setname;
+    private String setCode;
+    private String setName;
     private String svguri;
 
     private int image;
 
     public Set() {
-        setname = null;
+        setCode = null;
         svguri = null;
+        setName = null;
         image = 0;
     }
-    public void setSetname(String setname) {
-        this.setname = setname;
+    public void setSetCode(String setCode) {
+        this.setCode = setCode;
+    }
+    public void setSetName(String setName) {
+        this.setName = setName;
     }
     public void setSvguri(String svguri) {
         this.svguri = svguri;
@@ -26,12 +31,16 @@ public class Set {
     public void setImage(int image) {
         this.image = image;
     }
-    public String getSetname() {
-        return this.setname;
+    public String getSetCode() {
+        return this.setCode;
+    }
+    public String getSetName() {
+        return this.setName;
     }
     public String getSvguri() {
         return this.svguri;
     }
+
     public int getImage() {
         return image;
     }

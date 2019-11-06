@@ -8,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -83,15 +81,16 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
                     new Response.Listener<JSONObject>() {
                         public void onResponse(JSONObject response) {
                             String setcode;
+                            String setname;
                             try {
                                 //SvgUri = response.getString("icon_svg_uri");
                                 //Log.i("Icon url" , SvgUri);
                                 Set _set = new Set();
                                 setcode = response.getString("code");
-                                _set.setSetname(setcode.toUpperCase());
+                                _set.setSetCode(setcode.toUpperCase());
                                 int imgID = getResources().getIdentifier(setcode, "drawable", getPackageName());
                                 _set.setImage(imgID);
-
+                                _set.setSetName(response.getString("name"));
 
 
                                 svgcodes.add(_set);
@@ -208,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
     public void onSetClick(int position) {
         Intent intent = new Intent(this, SetPriceActivity.class);
 
-        String setcode = svgcodes.get(position).getSetname();
+        String setcode = svgcodes.get(position).getSetCode();
         intent.putExtra("SETCODE", setcode);
         startActivity(intent);
     }

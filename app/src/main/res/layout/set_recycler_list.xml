@@ -7,13 +7,20 @@
 
 
     <TextView
-        android:id="@+id/setname"
+        android:id="@+id/setcode"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:textAlignment="center"
-        app:layout_constraintLeft_toRightOf="@id/seticon"
+        app:layout_constraintLeft_toRightOf="@id/setname"
         android:textStyle="bold"
         android:scrollbars="vertical"
+        android:layout_marginLeft="20dp"
+        />
+    <TextView
+        android:id="@+id/setname"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/seticon"
 
         />
     <ImageView
