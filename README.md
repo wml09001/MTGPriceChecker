@@ -5,4 +5,4 @@ This is a personal project of mine to create an app that checks the price of Mag
 When opening packs of MTG cards this app allows the user to quickly check the current market price of MTG cards.
 Currently only Standard sets are included.
 
-![30%](app/demo/demo.gif)
+![verygood|30%](app/demo/demo.gif)
