@@ -15,5 +15,5 @@ Right now it shows the prices of the non-foil/regular version of the respective 
 
 ## Installation
 Installation can be done in Android Studio with a pull request with this repo. Compile and viola!
-Deploying the app into the App store will be done at a later time.
+Deploying the app into the App store will be done at a later time when more features are added.
 
