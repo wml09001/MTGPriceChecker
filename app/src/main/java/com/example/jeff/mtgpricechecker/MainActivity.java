@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.example.jeff.mtgpricechecker.Containers.*;
+import com.victor.loading.rotate.RotateLoading;
 //import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 //import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 //import com.github.twocoffeesoneteam.glidetovectoryou.SvgDecoder;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
 
     private ImageView mImageView;
 
-    //private RequestBuilder<PictureDrawable> requestBuilder;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -143,8 +143,9 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
 
         getSupportActionBar().setTitle("MTG Price Checker");
 
-
-
+        RotateLoading rotateLoading = findViewById(R.id.rotateloading);
+        rotateLoading.start();
+        rotateLoading.stop();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.set_view);
         mRecyclerView.setHasFixedSize(true);
@@ -166,14 +167,6 @@ public class MainActivity extends AppCompatActivity implements SetListings.onSet
 
 
 
-/*        ImageButton rix = (ImageButton) findViewById(R.id.button_rix);
-
-        rix.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SetPriceActivity.class);
-                startActivity(intent);
-            }
-        });*/
     }
 
 

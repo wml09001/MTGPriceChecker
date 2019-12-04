@@ -49,7 +49,7 @@ public class CardListings extends RecyclerView.Adapter<CardListings.ViewHolder> 
 //        holder.mTextView.setText(mDataset[position]);
         Card _card = cardlist.get(position);
         holder.mcardName.setText(_card.getCardname());
-        holder.mcardPrice.setText(_card.getPrice());
+        holder.mcardPrice.setText("Reg. USD: $" + _card.getPrice());
     }
 
     public int getItemCount() {

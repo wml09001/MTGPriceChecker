@@ -56,6 +56,7 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
         ViewHolder vh = new ViewHolder(v, mOnSetListener);
         return vh;
     }
+
     public void onBindViewHolder(ViewHolder holder, int position) {
         Set _set = setlist.get(position);
         holder.msetCode.setText(_set.getSetCode());
@@ -63,6 +64,7 @@ public class SetListings extends RecyclerView.Adapter<SetListings.ViewHolder> {
         holder.msetIcon.setImageResource(_set.getImage());
 
     }
+
     public int getItemCount() { return setlist.size(); }
 
     public interface onSetListener {

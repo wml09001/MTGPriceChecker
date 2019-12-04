@@ -39,6 +39,7 @@ public class SetPriceActivity extends AppCompatActivity {
     private ArrayList<Card> cardlist;
     private ArrayList<Card> setlist;
     private String msetcode;
+    private RotateLoading rotateLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,16 @@ public class SetPriceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_price);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        RotateLoading rotateLoading = findViewById(R.id.rotateloading);
+
+        rotateLoading = findViewById(R.id.rotateloading);
+
+ /*       if(rotateLoading.isStart()){
+            rotateLoading.stop();
+        }else{
+            rotateLoading.start();
+        }*/
 
         setSupportActionBar(toolbar);
-
 
 
         Intent intent = getIntent();
@@ -72,24 +79,7 @@ public class SetPriceActivity extends AppCompatActivity {
         mAdapter = new CardListings(cardlist);
         mRecyclerView.setAdapter(mAdapter);
 
-/*        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    //initializeScryfall(setlist);
-                    //updateList();
-                    testQuery("https://api.scryfall.com/cards/search?q=set%3A" + msetcode);
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
-                }
-            }
-        }).start();*/
-        if(rotateLoading.isStart()){
-            rotateLoading.stop();
-        }else{
-            rotateLoading.start();
-        }
         testQuery("https://api.scryfall.com/cards/search?q=set%3A" + msetcode);
-        rotateLoading.stop();
     }
 
     private void populateList() {
@@ -121,80 +111,12 @@ public class SetPriceActivity extends AppCompatActivity {
 
     }
 
-    public void setQuery() {
-        int size;
-
-
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.scryfall.com/cards/search?q=fatal";
-        String test = "https://api.scryfall.com/cards/search?q=set%3Agrn";
-
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, test, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        //Log.i("Response", response.toString());
-                        try {
-                            int size = 0;
-
-                            if (response.has("total_cards")) {
-                                size = response.getInt("total_cards");
-
-                                // Scryfall API only fetches 175 cards at a time.
-                                //Log.i("has more",response.getString("has_more"));
-
-                                if (response.getString("has_more").matches("true")) {
-                                    String nextpage = response.getString("next_page");
-                                    Log.i("Next Page", nextpage);
-                                }
-
-                                Log.i("Num", Integer.toString(size));
-                                JSONArray cardslist = response.getJSONArray("data");
-
-                                //ArrayList<Card> setlist = new ArrayList<Card>();
-
-                                for (int i = 0; i < size; i++) {
-                                    JSONObject card = (JSONObject) cardslist.get(i);
-                                    Log.i("Card Name", card.getString("name"));
-                                    //setlist.add(new Card(card.getString("name"), null, null));
-
-                                }
-                                //Log.i("ARRAY SIZE" , Integer.toString(setlist.size()));
-                            } else {
-                                Log.i("Query fail", "0 total cards in query");
-                            }
-
-
-
-                        }
-                        catch(JSONException e){
-
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", "failed Volley response");
-            }
-        });
-        queue.add(stringRequest);
-    }
-
-    public void initializeScryfall(ArrayList<Card> setlist) {
-        testQuery("https://api.scryfall.com/cards/search?q=set%3Agrn");
-        Log.i("Set List Size", Integer.toString(setlist.size()));
-    }
-
     public void testQuery(String test) {
-        RequestQueue mRequestQueue;
 
+        rotateLoading.start();
 
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024*1024);
-        Network network = new BasicNetwork(new HurlStack());
-        mRequestQueue = new RequestQueue(cache, network);
-        mRequestQueue.start();
+        RequestQueue mRequestQueue = Volley.newRequestQueue(this);
+
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, test, null,
                 new Response.Listener<JSONObject>() {
@@ -203,6 +125,7 @@ public class SetPriceActivity extends AppCompatActivity {
                         try {
                             int size = 0;
                             String nextpage = null;
+                            Card _card;
 
                             if (response.has("total_cards")) {
                                 size = response.getInt("total_cards");
@@ -212,10 +135,14 @@ public class SetPriceActivity extends AppCompatActivity {
 
                                 if (response.getString("has_more").matches("true")) {
                                     nextpage = response.getString("next_page");
+/*
                                     Log.i("Next Page", nextpage);
+*/
                                 }
 
+/*
                                 Log.i("Num", Integer.toString(size));
+*/
                                 JSONArray cardslist = response.getJSONArray("data");
 
 
@@ -223,7 +150,7 @@ public class SetPriceActivity extends AppCompatActivity {
                                 for (int i = 0; i < cardslist.length(); i++) {
                                     JSONObject card = (JSONObject) cardslist.get(i);
                                     //Log.i("Card Name", card.getString("name"));
-                                    Card _card = new Card();
+                                    _card = new Card();
                                     _card.setCardname(card.getString("name"));
                                     JSONObject pricelist = card.getJSONObject("prices");
 
@@ -242,7 +169,9 @@ public class SetPriceActivity extends AppCompatActivity {
                                     testQuery(nextpage);
                                 }
 
+/*
                                 Log.i("Set List Size", Integer.toString(cardlist.size()));
+*/
                                 mAdapter.notifyDataSetChanged();
 
                             } else {
@@ -251,6 +180,8 @@ public class SetPriceActivity extends AppCompatActivity {
                         }
                         catch (JSONException e){
 
+                        } finally {
+                            rotateLoading.stop();
                         }
                     }
                 },
@@ -260,6 +191,7 @@ public class SetPriceActivity extends AppCompatActivity {
                         }
                 });
         mRequestQueue.add(stringRequest);
+
     }
 
 
